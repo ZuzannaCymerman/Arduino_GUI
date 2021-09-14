@@ -6,16 +6,6 @@
     </constraints>
     <properties/>
     <border type="none"/>
-    <children>
-      <component id="b6005" class="javax.swing.JComboBox" binding="cards_combobox">
-        <constraints border-constraint="South"/>
-        <properties>
-          <model>
-            <item value="config"/>
-            <item value="leds"/>
-          </model>
-        </properties>
-      </component>
-    </children>
+    <children/>
   </grid>
 </form>

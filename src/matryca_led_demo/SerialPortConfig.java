@@ -2,8 +2,8 @@ package matryca_led_demo;
 
 import javax.swing.*;
 
-public class Config {
-    public JPanel config_panel;
+public class SerialPortConfig {
+    public JPanel serial_port_config_panel;
     private JButton button_connect;
     private JPanel panel_south;
 }
