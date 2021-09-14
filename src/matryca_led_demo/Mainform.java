@@ -24,16 +24,19 @@ public class Mainform extends JFrame implements ActionListener {
     Mainform(){
         setSize(500,500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-       card_container_panel.setLayout(cl);
-       card_container_panel.add(serial_port_config_panel, "port_config");
-       card_container_panel.add(led_panel, "LEDs");
-       card_container_panel.add(wifi_config_panel, "wifi_config");
-       menu_panel.add(card_container_panel, BorderLayout.CENTER);
-       menuActions();
-    //   choose_card();
+       setMain_panel();
        setContentPane(menu_panel);
        setVisible(true);
     }
+    public void setMain_panel(){
+        card_container_panel.setLayout(cl);
+        card_container_panel.add(serial_port_config_panel, "port_config");
+        card_container_panel.add(led_panel, "LEDs");
+        card_container_panel.add(wifi_config_panel, "wifi_config");
+        menu_panel.add(card_container_panel, BorderLayout.CENTER);
+        menuActions();
+    }
+
 
     public void menuActions(){
         port_config.addActionListener(this);
