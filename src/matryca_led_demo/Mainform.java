@@ -27,7 +27,7 @@ public class Mainform extends JFrame implements ActionListener {
 
 
     Mainform(){
-        setSize(800,600);
+        setSize(600,600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        setMain_panel();
        setContentPane(menu_panel);
