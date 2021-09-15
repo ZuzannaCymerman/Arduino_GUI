@@ -27,9 +27,11 @@ public class SerialPortConfig {
             @Override
             public void actionPerformed(ActionEvent e) {
                 arduino = new Arduino(ports.getSelectedItem().toString(), 9600); //enter the port name here, and ensure that Arduino is connected, otherwise exception will be thrown.
-                arduino.openConnection();
+                if(arduino.openConnection())
                 connection_state.setVisible(true);
-                System.out.println("connect");
+                else
+                    connection_state.setText("Connection failed. Try another port");
+                    connection_state.setVisible(true);
             }
         });
     }
