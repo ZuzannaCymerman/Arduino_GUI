@@ -25,6 +25,7 @@ public class Mainform extends JFrame implements ActionListener {
     public Database db = new Database();
 
 
+
     Mainform(){
         setSize(800,600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
