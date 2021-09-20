@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.*;
+import java.util.*;
+
 
 public class Mainform extends JFrame implements ActionListener {
     private JPanel card_container_panel;
@@ -19,6 +22,8 @@ public class Mainform extends JFrame implements ActionListener {
     public JMenuItem port_config = menu.port_config;
     public JMenuItem wifi_config = menu.wifi_config;
     public JMenuItem LEDs = menu.LEDs;
+    public HashMap<String, ArrayList<String>> networks = new HashMap<String, ArrayList<String>>();
+    public Database db = new Database();
 
 
     Mainform(){
@@ -27,6 +32,8 @@ public class Mainform extends JFrame implements ActionListener {
        setMain_panel();
        setContentPane(menu_panel);
        setVisible(true);
+       initializeNetworkTable();
+       db.setDB();
     }
     public void setMain_panel(){
         card_container_panel.setLayout(cl);
@@ -52,5 +59,15 @@ public class Mainform extends JFrame implements ActionListener {
         if(e.getSource()==LEDs)
             cl.show(card_container_panel, "LEDs");
     }
+
+    public void initializeNetworkTable(){
+        networks.put("ssid", new ArrayList<String>());
+        networks.put("password", new ArrayList<String>());
+    }
+
+
+
+
+
 
 }
