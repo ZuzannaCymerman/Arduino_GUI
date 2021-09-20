@@ -24,6 +24,25 @@ public class Database {
         }
     }
 
+    public HashMap fetch(Connection conn) throws SQLException{
+        HashMap<String, ArrayList<String>> networks = new HashMap<String, ArrayList<String>>();
+            networks.put("ssid", new ArrayList<String>());
+            networks.put("password", new ArrayList<String>());
+        try (Statement statement = conn.createStatement()) {
+            ResultSet result = statement.executeQuery("SELECT * FROM networks");
+            while(result.next()){
+                String ssid = result.getString("ssid");
+                String password = result.getString("password");
+                networks.get("ssid").add(ssid);
+                networks.get("password").add(password);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+        }
+        return networks;
+    }
+
+
     public void insert(Connection conn, String ssid, String password) throws SQLException {
         try (Statement statement = conn.createStatement()) {
             statement.executeQuery("INSERT INTO networks(ssid, password) VALUES"+"('"+ssid+"','"+password+"');");

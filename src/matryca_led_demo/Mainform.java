@@ -22,7 +22,6 @@ public class Mainform extends JFrame implements ActionListener {
     public JMenuItem port_config = menu.port_config;
     public JMenuItem wifi_config = menu.wifi_config;
     public JMenuItem LEDs = menu.LEDs;
-    public HashMap<String, ArrayList<String>> networks = new HashMap<String, ArrayList<String>>();
     public Database db = new Database();
 
 
@@ -32,7 +31,6 @@ public class Mainform extends JFrame implements ActionListener {
        setMain_panel();
        setContentPane(menu_panel);
        setVisible(true);
-       initializeNetworkTable();
        db.setDB();
     }
     public void setMain_panel(){
@@ -60,10 +58,7 @@ public class Mainform extends JFrame implements ActionListener {
             cl.show(card_container_panel, "LEDs");
     }
 
-    public void initializeNetworkTable(){
-        networks.put("ssid", new ArrayList<String>());
-        networks.put("password", new ArrayList<String>());
-    }
+
 
 
 
