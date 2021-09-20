@@ -32,6 +32,10 @@ public class Mainform extends JFrame implements ActionListener {
        setContentPane(menu_panel);
        setVisible(true);
        db.setDB();
+       try{
+          System.out.println(db.fetch(db.conn, "networks", new String[]{"ssid", "password"}));
+
+       }catch(Exception e){}
     }
     public void setMain_panel(){
         card_container_panel.setLayout(cl);

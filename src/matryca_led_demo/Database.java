@@ -24,36 +24,48 @@ public class Database {
         }
     }
 
-    public HashMap fetch(Connection conn) throws SQLException{
-        HashMap<String, ArrayList<String>> networks = new HashMap<String, ArrayList<String>>();
-            networks.put("ssid", new ArrayList<String>());
-            networks.put("password", new ArrayList<String>());
+    public HashMap fetch(Connection conn, String table, String[] columns) throws SQLException{
+        HashMap<String, ArrayList<String>> data = new HashMap<String, ArrayList<String>>();
+
+        for (String column: columns){
+
+            data.put(column, new ArrayList<String>());
+        }
+
         try (Statement statement = conn.createStatement()) {
-            ResultSet result = statement.executeQuery("SELECT * FROM networks");
-            while(result.next()){
-                String ssid = result.getString("ssid");
-                String password = result.getString("password");
-                networks.get("ssid").add(ssid);
-                networks.get("password").add(password);
+            ResultSet result = statement.executeQuery("SELECT * FROM "+table+";");
+            String [] records ={};
+                while (result.next()) {
+                    for(String column: columns) {
+                     String record = result.getString(column);
+                     data.get(column).add(record);
+                }
             }
         } catch (SQLException e) {
             System.out.println(e.toString());
         }
-        return networks;
+        return data;
     }
 
 
-    public void insert(Connection conn, String ssid, String password) throws SQLException {
+    public void insert(Connection conn, String table, String[] columns, String[] values) throws SQLException {
         try (Statement statement = conn.createStatement()) {
-            statement.executeQuery("INSERT INTO networks(ssid, password) VALUES"+"('"+ssid+"','"+password+"');");
+            String columns_string = columns[0];
+            String values_string = "'"+values[0]+"'";
+            for (int i = 1; i < columns.length; i++) {
+                columns_string = columns_string+", "+columns[i];
+                values_string = values_string+", '"+values[i]+"'";
+            }
+            statement.executeQuery("INSERT INTO networks("+columns_string+") VALUES("+values_string+");");
+
         } catch (SQLException e) {
             System.out.println(e.toString());
         }
     }
 
-    public void delete(Connection conn, String ssid, String password) throws SQLException{
+    public void delete(Connection conn, String table, String[] columns, String[] values) throws SQLException{
         try (Statement statement = conn.createStatement()) {
-            statement.executeQuery("DELETE FROM networks WHERE ssid ='"+ssid+"' AND password = '"+password+"';");
+            statement.executeQuery("DELETE FROM networks WHERE "+columns[0]+" = '"+values[0]+"' AND "+columns[1]+" = '"+values[1]+"';");
         } catch (SQLException e) {
             System.out.println(e.toString());
         }
