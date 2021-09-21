@@ -8,20 +8,21 @@ import java.util.HashMap;
 
 public class WiFiConfig {
     public JPanel wifi_config_panel;
-    public JTextField ssid_field;
-    public JTextField password_field;
-    public JComboBox pick_network;
-    public JButton saveButton;
-    public JButton cleanDatabaseButton;
-    public String network_ssid;
-    public String network_password;
-    public Database db = new Database();
+    private JTextField ssid_field;
+    private JTextField password_field;
+    private JComboBox pick_network;
+    private JButton saveButton;
+    private JButton cleanDatabaseButton;
+    private String network_ssid;
+    private String network_password;
+    private Database db = new Database();
 
     WiFiConfig(){
         save_wifi();
         list_all_networks();
-        clean_database_action();
+        clean_database();
     }
+
     public void save_wifi() {
         saveButton.addActionListener(new ActionListener() {
             @Override
@@ -45,7 +46,6 @@ public class WiFiConfig {
         });
     }
 
-
     public void list_all_networks() {
         db.setDB();
         pick_network.removeAllItems();
@@ -63,14 +63,13 @@ public class WiFiConfig {
         });
         db.close_connection();
     }
-    public void clean_database_action() {
 
+    public void clean_database() {
         cleanDatabaseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 db.setDB();
-                try{db.clean_table(db.conn, "networks");
-                }catch(Exception ex){}
+                try{db.clean_table(db.conn, "networks");}catch(Exception ex){}
                 list_all_networks();
                 db.close_connection();
             }
