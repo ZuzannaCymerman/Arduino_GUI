@@ -33,10 +33,9 @@ public class Mainform extends JFrame implements ActionListener {
        setContentPane(menu_panel);
        setVisible(true);
        db.setDB();
-       try{
-          System.out.println(db.fetch(db.conn, "networks", new String[]{"ssid", "password"}));
-
-       }catch(Exception e){}
+        save_wifi();
+        list_all_networks();
+        clean_database_action();
     }
     public void setMain_panel(){
         card_container_panel.setLayout(cl);
@@ -63,4 +62,51 @@ public class Mainform extends JFrame implements ActionListener {
             cl.show(card_container_panel, "LEDs");
     }
 
+    public void save_wifi() {
+        wifi_configuration.saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                wifi_configuration.network_ssid = wifi_configuration.ssid_field.getText();
+                wifi_configuration.network_password = wifi_configuration.password_field.getText();
+                wifi_configuration.ssid_field.setText(null);
+                wifi_configuration.password_field.setText(null);
+                try{
+                    db.insert(db.conn,
+                            "networks",
+                            new String[]{"ssid", "password"},
+                            new String[]{wifi_configuration.network_ssid,
+                                        wifi_configuration.network_password});
+                }catch(Exception ex){}
+                list_all_networks();
+            }
+
+        });
+    }
+
+
+    public void list_all_networks() {
+        wifi_configuration.pick_network.removeAllItems();
+        HashMap<String, ArrayList<String>> networks = new HashMap<String, ArrayList<String>>();
+        try{networks = db.fetch(db.conn, "networks", new String[]{"ssid", "password"});
+        }catch(Exception ex){}
+        for (String ssid: networks.get("ssid")){
+            wifi_configuration.pick_network.addItem(ssid);
+        }
+        wifi_configuration.pick_network.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+    }
+    public void clean_database_action() {
+        wifi_configuration.cleanDatabaseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try{db.clean_table(db.conn, "networks");
+                }catch(Exception ex){}
+                list_all_networks();
+            }
+        });
+    }
 }

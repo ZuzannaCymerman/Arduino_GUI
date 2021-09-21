@@ -37,7 +37,9 @@
           </grid>
           <gridbag weightx="0.0" weighty="0.0" ipadx="100"/>
         </constraints>
-        <properties/>
+        <properties>
+          <model/>
+        </properties>
       </component>
       <component id="686ba" class="javax.swing.JButton" binding="button_connect">
         <constraints>

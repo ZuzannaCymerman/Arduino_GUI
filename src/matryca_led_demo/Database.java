@@ -69,10 +69,9 @@ public class Database {
         }
     }
 
-    public void clean_table(Connection conn, String table, String create_table) throws SQLException{
+    public void clean_table(Connection conn, String table) throws SQLException{
         try (Statement statement = conn.createStatement()) {
-            statement.executeQuery("DROP TABLE"+table+";");
-            statement.executeQuery("CREATE TABLE"+table+"("+create_table+");");
+            statement.executeQuery("TRUNCATE TABLE "+table+";");
         } catch (SQLException e) {
             System.out.println(e.toString());
         }
