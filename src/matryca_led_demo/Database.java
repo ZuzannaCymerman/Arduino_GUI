@@ -76,6 +76,13 @@ public class Database {
             System.out.println(e.toString());
         }
     }
+    public void close_connection(){
+        try (Statement statement = conn.createStatement()) {
+            statement.close();
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+        }
+    }
 
 
 }
