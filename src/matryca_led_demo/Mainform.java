@@ -62,11 +62,4 @@ public class Mainform extends JFrame implements ActionListener {
             cl.show(card_container_panel, "LEDs");
     }
 
-
-
-
-
-
-
-
 }
