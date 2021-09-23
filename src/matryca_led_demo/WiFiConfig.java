@@ -68,13 +68,17 @@ public class WiFiConfig {
     }
     public String[] select_wifi(HashMap<String, ArrayList<String>> networks){
         String [] selected_wifi =new String[2];
-        String selected_ssid_from_combobox = pick_network.getSelectedItem().toString();
-        int ssid_index = networks.get("ssid").indexOf(selected_ssid_from_combobox);
-        String selected_password_from_combobox = networks.get("password").get(ssid_index);
-        selected_wifi[0] =selected_ssid_from_combobox;
-        selected_wifi[1] =selected_password_from_combobox;
-        System.out.println(selected_wifi);
-        return selected_wifi;
+        Object selected_object = pick_network.getSelectedItem();
+        if(selected_object != null) {
+            String selected_ssid_from_combobox = selected_object.toString();
+            int ssid_index = networks.get("ssid").indexOf(selected_ssid_from_combobox);
+            String selected_password_from_combobox = networks.get("password").get(ssid_index);
+            selected_wifi[0] = selected_ssid_from_combobox;
+            selected_wifi[1] = selected_password_from_combobox;
+            System.out.println(selected_wifi);
+        }
+            return selected_wifi;
+
     }
 
     public void clean_database() {
