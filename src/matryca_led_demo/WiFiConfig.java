@@ -16,6 +16,8 @@ public class WiFiConfig {
     private String network_ssid;
     private String network_password;
     private Database db = new Database();
+    public String[] selected_network;
+    private  HashMap<String, ArrayList<String>> networks = new HashMap<String, ArrayList<String>>();
 
     WiFiConfig(){
         save_wifi();
@@ -49,7 +51,7 @@ public class WiFiConfig {
     public void list_all_networks() {
         db.setDB();
         pick_network.removeAllItems();
-        HashMap<String, ArrayList<String>> networks = new HashMap<String, ArrayList<String>>();
+
         try{networks = db.fetch(db.conn, "networks", new String[]{"ssid", "password"});
         }catch(Exception ex){}
         for (String ssid: networks.get("ssid")){
@@ -58,10 +60,21 @@ public class WiFiConfig {
         pick_network.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                selected_network = select_wifi(networks);
+                System.out.println(selected_network[0]+selected_network[1]);
             }
         });
         db.close_connection();
+    }
+    public String[] select_wifi(HashMap<String, ArrayList<String>> networks){
+        String [] selected_wifi =new String[2];
+        String selected_ssid_from_combobox = pick_network.getSelectedItem().toString();
+        int ssid_index = networks.get("ssid").indexOf(selected_ssid_from_combobox);
+        String selected_password_from_combobox = networks.get("password").get(ssid_index);
+        selected_wifi[0] =selected_ssid_from_combobox;
+        selected_wifi[1] =selected_password_from_combobox;
+        System.out.println(selected_wifi);
+        return selected_wifi;
     }
 
     public void clean_database() {
