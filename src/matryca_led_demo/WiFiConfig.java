@@ -13,15 +13,15 @@ public class WiFiConfig {
     private JComboBox pick_network;
     private JButton saveButton;
     private JButton cleanDatabaseButton;
-    private String network_ssid;
-    private String network_password;
+
+    public String selected_ssid;
+    public String selected_password;
     private Database db = new Database();
-    public String[] selected_network;
     private  HashMap<String, ArrayList<String>> networks = new HashMap<String, ArrayList<String>>();
 
     WiFiConfig(){
         save_wifi();
-        list_all_networks();
+        list_all_networks_and_pick();
         clean_database();
     }
 
@@ -30,28 +30,24 @@ public class WiFiConfig {
             @Override
             public void actionPerformed(ActionEvent e) {
                 db.setDB();
-                network_ssid = ssid_field.getText();
-                network_password = password_field.getText();
+                String network_ssid = ssid_field.getText();
+                String network_password = password_field.getText();
                 ssid_field.setText(null);
                 password_field.setText(null);
-                try{
-                    db.insert(db.conn,
-                            "networks",
-                            new String[]{"ssid", "password"},
-                            new String[]{network_ssid,
-                                    network_password});
+                try{db.insert(db.conn, "networks",
+                        new String[]{"ssid", "password"},
+                        new String[]{network_ssid, network_password});
                 }catch(Exception ex){}
-                list_all_networks();
+                list_all_networks_and_pick();
                 db.close_connection();
             }
 
         });
     }
 
-    public void list_all_networks() {
+    public void list_all_networks_and_pick() {
         db.setDB();
         pick_network.removeAllItems();
-
         try{networks = db.fetch(db.conn, "networks", new String[]{"ssid", "password"});
         }catch(Exception ex){}
         for (String ssid: networks.get("ssid")){
@@ -60,12 +56,16 @@ public class WiFiConfig {
         pick_network.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                selected_network = select_wifi(networks);
-                System.out.println(selected_network[0]+selected_network[1]);
+               String[] selected_network = select_wifi(networks);
+                selected_ssid = selected_network[0];
+                selected_password = selected_network[1];
+                System.out.println(selected_ssid+" "+selected_password);
             }
         });
+
         db.close_connection();
     }
+
     public String[] select_wifi(HashMap<String, ArrayList<String>> networks){
         String [] selected_wifi =new String[2];
         Object selected_object = pick_network.getSelectedItem();
@@ -75,7 +75,6 @@ public class WiFiConfig {
             String selected_password_from_combobox = networks.get("password").get(ssid_index);
             selected_wifi[0] = selected_ssid_from_combobox;
             selected_wifi[1] = selected_password_from_combobox;
-            System.out.println(selected_wifi);
         }
             return selected_wifi;
 
@@ -87,7 +86,7 @@ public class WiFiConfig {
             public void actionPerformed(ActionEvent e) {
                 db.setDB();
                 try{db.clean_table(db.conn, "networks");}catch(Exception ex){}
-                list_all_networks();
+                list_all_networks_and_pick();
                 db.close_connection();
             }
         });

@@ -71,7 +71,7 @@ public class Database {
 
     public void clean_table(Connection conn, String table) throws SQLException{
         try (Statement statement = conn.createStatement()) {
-            statement.executeQuery("TRUNCATE TABLE "+table+";");
+            statement.executeQuery("TRUNCATE TABLE "+table+" RESTART IDENTITY;");
         } catch (SQLException e) {
             System.out.println(e.toString());
         }
