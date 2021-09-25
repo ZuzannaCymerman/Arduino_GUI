@@ -22,20 +22,13 @@ public class Mainform extends JFrame implements ActionListener {
     public JMenuItem port_config = menu.port_config;
     public JMenuItem wifi_config = menu.wifi_config;
     public JMenuItem LEDs = menu.LEDs;
-    public Database db = new Database();
-
 
     Mainform(){
-        setSize(800,600);
+        setSize(600,600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        setMain_panel();
        setContentPane(menu_panel);
        setVisible(true);
-       db.setDB();
-       try{
-          System.out.println(db.fetch(db.conn, "networks", new String[]{"ssid", "password"}));
-
-       }catch(Exception e){}
     }
     public void setMain_panel(){
         card_container_panel.setLayout(cl);
@@ -61,12 +54,4 @@ public class Mainform extends JFrame implements ActionListener {
         if(e.getSource()==LEDs)
             cl.show(card_container_panel, "LEDs");
     }
-
-
-
-
-
-
-
-
 }

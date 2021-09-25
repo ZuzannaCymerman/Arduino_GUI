@@ -28,13 +28,11 @@ public class Database {
         HashMap<String, ArrayList<String>> data = new HashMap<String, ArrayList<String>>();
 
         for (String column: columns){
-
             data.put(column, new ArrayList<String>());
         }
 
         try (Statement statement = conn.createStatement()) {
             ResultSet result = statement.executeQuery("SELECT * FROM "+table+";");
-            String [] records ={};
                 while (result.next()) {
                     for(String column: columns) {
                      String record = result.getString(column);
@@ -71,10 +69,16 @@ public class Database {
         }
     }
 
-    public void clean_table(Connection conn) throws SQLException{
+    public void clean_table(Connection conn, String table) throws SQLException{
         try (Statement statement = conn.createStatement()) {
-            statement.executeQuery("DROP TABLE networks");
-            statement.executeQuery("CREATE TABLE networks(id SERIAL PRIMARY KEY,ssid varchar(40) NOT NULL,password varchar(40) NOT NULL);");
+            statement.executeQuery("TRUNCATE TABLE "+table+" RESTART IDENTITY;");
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+        }
+    }
+    public void close_connection(){
+        try (Statement statement = conn.createStatement()) {
+            statement.close();
         } catch (SQLException e) {
             System.out.println(e.toString());
         }
