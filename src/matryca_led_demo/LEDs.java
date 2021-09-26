@@ -25,10 +25,14 @@ public class LEDs {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("on");
+                String jsonString = new JSONObject()
+                        .put("led" , "on")
+                        .toString();
+
                 HttpClient client = HttpClient.newHttpClient();
                 HttpRequest request = HttpRequest.newBuilder()
                         .uri(URI.create("http://192.168.0.107"))
-                        .POST(HttpRequest.BodyPublishers.ofString("{on}"))
+                        .POST(HttpRequest.BodyPublishers.ofString(jsonString))
                         .build();
                 try {
                     client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
@@ -46,10 +50,15 @@ public class LEDs {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("off");
+
+                String jsonString = new JSONObject()
+                        .put("led" , "off")
+                        .toString();
+
                 HttpClient client = HttpClient.newHttpClient();
                 HttpRequest request = HttpRequest.newBuilder()
                         .uri(URI.create("http://192.168.0.107"))
-                        .POST(HttpRequest.BodyPublishers.ofString("{off}"))
+                        .POST(HttpRequest.BodyPublishers.ofString(jsonString))
                         .build();
                 try {
                     client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
