@@ -25,6 +25,7 @@ void setup() {
     }
 
     server.begin();
+    Serial.println(WiFi.localIP());
 
 }
 
