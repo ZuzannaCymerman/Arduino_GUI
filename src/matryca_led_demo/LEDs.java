@@ -25,18 +25,10 @@ public class LEDs {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("on");
-                HttpClient client = HttpClient.newHttpClient();
-                HttpRequest request = HttpRequest.newBuilder()
-                        .uri(URI.create("http://192.168.0.107"))
-                        .POST(HttpRequest.BodyPublishers.ofString("{on}"))
-                        .build();
-                try {
-                    client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                            .thenApply(response -> { System.out.println(response.statusCode());
-                                return response; } )
-                            .thenApply(HttpResponse::body)
-                            .thenAccept(System.out::println);
-                }catch(Exception ex){};
+                String json_data = new JSONObject()
+                        .put("led" , "on")
+                        .toString();
+                send_request(json_data);
             }
         });
     }
@@ -46,36 +38,23 @@ public class LEDs {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("off");
-                HttpClient client = HttpClient.newHttpClient();
-                HttpRequest request = HttpRequest.newBuilder()
-                        .uri(URI.create("http://192.168.0.107"))
-                        .POST(HttpRequest.BodyPublishers.ofString("{off}"))
-                        .build();
-                try {
-                    client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                            .thenApply(response -> { System.out.println(response.statusCode());
-                                return response; } )
-                            .thenApply(HttpResponse::body)
-                            .thenAccept(System.out::println);
-                }catch(Exception ex){};
+
+                String json_data = new JSONObject()
+                        .put("led" , "off")
+                        .toString();
+
+               send_request(json_data);
             }
         });
     }
 
 
 
-    void send_request_action(){
-                String jsonString = new JSONObject()
-                        .put("JSON1", "Hello World!")
-                        .put("JSON2", "Hello my World!")
-                        .put("JSON3", new JSONObject().put("key1", "value1"))
-                        .toString();
-
-                System.out.println(jsonString);
+    void send_request(String json_data){
                 HttpClient client = HttpClient.newHttpClient();
                 HttpRequest request = HttpRequest.newBuilder()
-                        .uri(URI.create("http://192.168.0.107"))
-                        .POST(HttpRequest.BodyPublishers.ofString(jsonString))
+                        .uri(URI.create("http://192.168.0.104"))
+                        .POST(HttpRequest.BodyPublishers.ofString(json_data))
                         .build();
                 try {
                     client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
