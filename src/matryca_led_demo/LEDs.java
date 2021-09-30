@@ -9,11 +9,20 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import ArduinoUploader.ArduinoSketchUploader;
+import ArduinoUploader.ArduinoSketchUploaderOptions;
+import ArduinoUploader.ArduinoUploaderException;
+import ArduinoUploader.IArduinoUploaderLogger;
+import ArduinoUploader.Hardware.ArduinoModel;
+import CSharpStyle.IProgress;
+import Test.SerialPortStreamImpl;
+
 
 public class LEDs {
     public JPanel led_panel;
     private JButton led_off;
     private JButton led_on;
+    private WiFi wifi = new WiFi();
 
     LEDs(){
         led_on_action();
@@ -28,7 +37,7 @@ public class LEDs {
                 String json_data = new JSONObject()
                         .put("led" , "on")
                         .toString();
-                send_request(json_data);
+                wifi.send_request(json_data);
             }
         });
     }
@@ -38,30 +47,12 @@ public class LEDs {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("off");
-
                 String json_data = new JSONObject()
                         .put("led" , "off")
                         .toString();
-
-               send_request(json_data);
+               wifi.send_request(json_data);
             }
         });
     }
 
-
-
-    void send_request(String json_data){
-                HttpClient client = HttpClient.newHttpClient();
-                HttpRequest request = HttpRequest.newBuilder()
-                        .uri(URI.create("http://192.168.0.104"))
-                        .POST(HttpRequest.BodyPublishers.ofString(json_data))
-                        .build();
-                try {
-                    client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                            .thenApply(response -> { System.out.println(response.statusCode());
-                                return response; } )
-                            .thenApply(HttpResponse::body)
-                            .thenAccept(System.out::println);
-                }catch(Exception ex){};
-            }
 }

@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import arduino.*;
 
 public class WiFiConfig {
     public JPanel wifi_config_panel;
@@ -13,6 +14,7 @@ public class WiFiConfig {
     private JComboBox pick_network;
     private JButton saveButton;
     private JButton cleanDatabaseButton;
+    public JButton connect_to_wifi_button;
 
     public String selected_ssid;
     public String selected_password;
@@ -34,15 +36,18 @@ public class WiFiConfig {
                 String network_password = password_field.getText();
                 ssid_field.setText(null);
                 password_field.setText(null);
-                try{db.insert(db.conn, "networks",
-                        new String[]{"ssid", "password"},
-                        new String[]{network_ssid, network_password});
-                }catch(Exception ex){}
+                try {
+                    db.insert(db.conn, "networks",
+                            new String[]{"ssid", "password"},
+                            new String[]{network_ssid, network_password});
+                } catch (Exception ex) {
+                }
                 list_all_networks_and_pick();
                 db.close_connection();
             }
 
         });
+
     }
 
     public void list_all_networks_and_pick() {
@@ -91,6 +96,7 @@ public class WiFiConfig {
             }
         });
     }
+
 
 
 }

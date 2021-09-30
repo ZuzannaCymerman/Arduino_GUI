@@ -4,5 +4,7 @@
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/JSON-java" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/arduino_src/libraries/WiFiEsp" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/lib/Java-ArduinoSketchUploader" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/Java-ArduinoSketchUploader" vcs="Git" />
   </component>
 </project>

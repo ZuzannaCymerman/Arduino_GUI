@@ -9,16 +9,14 @@ public class Menu{
     public JMenuBar menu = new JMenuBar();
     public JMenu preferences = new JMenu("Preferences");
     public JMenu program = new JMenu("Program");
-    public JMenuItem port_config = new JMenuItem("Serial port configuration");
-    public JMenuItem wifi_config = new JMenuItem("WiFi configuration");
+    public JMenuItem config = new JMenuItem("Configuration");
     public JMenuItem LEDs = new JMenuItem("LEDs");
 
     public Menu() {
         menu_panel.add(menu, BorderLayout.NORTH);
         menu.add(preferences);
         menu.add(program);
-        preferences.add(port_config);
-        preferences.add(wifi_config);
+        preferences.add(config);
         program.add(LEDs);
     }
 
