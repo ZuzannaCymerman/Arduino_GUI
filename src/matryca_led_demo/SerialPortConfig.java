@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import java.awt.Font;
 import java.awt.event.*;
+import java.io.InputStream;
 import java.io.Serial;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -24,7 +25,8 @@ public class SerialPortConfig {
 
     private PortDropdownMenu ports;
     private JLabel connection_state;
-    private Arduino arduino;
+    public String port;
+    public Arduino arduino;
 
     SerialPortConfig(){
         connect();
@@ -37,7 +39,8 @@ public class SerialPortConfig {
         button_connect.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                arduino = new Arduino(ports.getSelectedItem().toString(), 9600); //enter the port name here, and ensure that Arduino is connected, otherwise exception will be thrown.
+                port = ports.getSelectedItem().toString();
+                arduino = new Arduino(port, 9600); //enter the port name here, and ensure that Arduino is connected, otherwise exception will be thrown.
                 if(arduino.openConnection())
                 connection_state.setVisible(true);
                 else
@@ -45,6 +48,8 @@ public class SerialPortConfig {
                     connection_state.setVisible(true);
             }
         });
+
     }
+
 
 }
