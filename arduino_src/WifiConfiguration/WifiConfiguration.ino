@@ -37,6 +37,12 @@ char* readStringFromEEPROM(int addrOffset)
   return data;
 }
 
+void clearEEPROM(){
+   for (int i = 0 ; i < EEPROM.length() ; i++) {
+    EEPROM.write(i, 0);
+  }
+}
+
 bool WiFiworks(int status){
   if(status == 1){
     return true;
@@ -89,8 +95,7 @@ void setup() {
   EspSerial.begin(9600);
   
   WiFi.init(&EspSerial);
-  IPAddress local_IP(192, 168, 1, 190);
-  WiFi.config(local_IP);
+
 
   wifi_status = setupWiFi();
   
@@ -108,6 +113,7 @@ void setup() {
     String ssid = Serial.readStringUntil('|');
     String password = Serial.readStringUntil('|');    
 
+    clearEEPROM();
     writeStringToEEPROM(0, ssid);
     writeStringToEEPROM(20, password);
 
@@ -119,7 +125,10 @@ void setup() {
     digitalWrite(red, LOW);
     digitalWrite(green, HIGH);
   }
-
+  IPAddress local_IP(192, 168, 0, 190);
+  WiFi.config(local_IP);
+  Serial.println(WiFi.localIP());
+  
   server.begin();
 }
 
@@ -135,6 +144,7 @@ WiFiEspClient client = server.available();
   
           client.readStringUntil('{');
           String json_data = client.readStringUntil('}');
+          Serial.println(json_data);
 
           state = jsonHashValue(json_data, "led");
           

@@ -13,7 +13,7 @@ public class WiFi {
     void send_request(String json_data){
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://192.168.1.190"))
+                .uri(URI.create("http://192.168.0.190"))
                 .POST(HttpRequest.BodyPublishers.ofString(json_data))
                 .build();
         try {
@@ -23,5 +23,6 @@ public class WiFi {
                     .thenApply(HttpResponse::body)
                     .thenAccept(System.out::println);
         }catch(Exception ex){};
+
     }
 }
